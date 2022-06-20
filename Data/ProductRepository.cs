@@ -14,11 +14,6 @@ public class ProductRepository : IProductRepository
         _bucket = bucketProvider.GetBucketAsync().Result;
     }
     
-    /// <summary>
-    /// Get product by id
-    /// </summary>
-    /// <param name="key"></param>
-    /// <returns></returns>
     public async Task<Product> GetProductByKey(string key)
     {
         var collection = await _bucket.CollectionAsync("_default");
@@ -26,15 +21,7 @@ public class ProductRepository : IProductRepository
 
         return product;
     }
-
-    /// <summary>
-    /// Get products by category type
-    /// </summary>
-    /// <remarks>
-    /// 0 => electronics, 1 => fashion, 2 = home
-    /// </remarks>
-    /// <param name="category"></param>
-    /// <returns></returns>
+    
     public async Task<List<Product>> GetProductsByCategory(ProductCategoryType category)
     {
         var queryResult = await _bucket.Cluster.QueryAsync<Product>(
@@ -43,12 +30,7 @@ public class ProductRepository : IProductRepository
 
         return await queryResult.Rows.ToListAsync();
     }
-
-    /// <summary>
-    /// Create product
-    /// </summary>
-    /// <param name="product"></param>
-    /// <returns></returns>
+    
     public async Task<string> CreateProduct(ProductDto product)
     {
         var collection = await _bucket.CollectionAsync("_default");
@@ -63,12 +45,7 @@ public class ProductRepository : IProductRepository
 
         return uniqueKey;
     }
-
-    /// <summary>
-    /// Update product
-    /// </summary>
-    /// <param name="key"></param>
-    /// <param name="product"></param>
+    
     public async Task UpdateProduct(string key, ProductDto product)
     {
         var collection = await _bucket.CollectionAsync("_default");
